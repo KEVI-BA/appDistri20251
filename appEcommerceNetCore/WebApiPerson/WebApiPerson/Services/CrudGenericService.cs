@@ -1,8 +1,8 @@
-﻿using app.projectCholcaByron.DataAccess.context;
-using app.projectCholcaByron.Entities.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiPerson.Context;
+using static WebApiPerson.Models.EntitiesModels;
 
-namespace app.projectCholcaByron.DataAccess
+namespace WebApiPerson.Services
 {
     public class CrudGenericService<TEntityBase> where TEntityBase : EntityBase
     {
@@ -13,24 +13,24 @@ namespace app.projectCholcaByron.DataAccess
             _context = context;
         }
 
-        public async Task<TEntityBase> InsertEntity(TEntityBase entity)
+        public async Task<string> Insert(TEntityBase entity)
         {
             await _context.Set<TEntityBase>().AddAsync(entity);
             _context.Entry(entity).State = EntityState.Added;
             await _context.SaveChangesAsync();
 
-            return entity;
+            return entity.Id;
         }
 
-        public async Task<TEntityBase> SelectEntity(int id)
+        public async Task<TEntityBase> Select(string id)
         {
-            var entity = await _context.Set<TEntityBase>().SingleOrDefaultAsync(p => p.Id == id && p!.Estado);
+            var entity = await _context.Set<TEntityBase>().SingleOrDefaultAsync(p => p.Id == id && p!.Status);
             if (entity == null) return null!;
             return entity;
         }
 
 
-        public async Task<List<TEntityBase>> SelectEntitiesAll()
+        public async Task<ICollection<TEntityBase>> SelectAll()
         {
             var entities = await _context.Set<TEntityBase>().ToListAsync();
             if (entities == null) return null!;
@@ -46,7 +46,7 @@ namespace app.projectCholcaByron.DataAccess
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteEntity(int id)
+        public async Task DeleteEntity(string id)
         {
             var entity = await _context.Set<TEntityBase>().SingleOrDefaultAsync(p => p.Id == id);
 

@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\app.projectCholcaByron.common\app.projectCholcaByron.common.csproj" />
+    <ProjectReference Include="..\app.projectCholcaByron.DataAccess\app.projectCholcaByron.DataAccess.csproj" />
+    <ProjectReference Include="..\app.projectCholcaByron.Entities\app.projectCholcaByron.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
