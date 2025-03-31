@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\app.projectCholcaByron.DataAccess\app.projectCholcaByron.DataAccess.csproj" />
+    <ProjectReference Include="..\app.projectCholcaByron.services\app.projectCholcaByron.services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
 using app.projectCholcaByron.DataAccess.context;
+using app.projectCholcaByron.services.Implementations;
+using app.projectCholcaByron.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
 });
 
+
+
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 var app = builder.Build();
 
