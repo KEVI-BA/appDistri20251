@@ -12,8 +12,8 @@ using app.projectCholcaByron.DataAccess.context;
 namespace app.projectCholcaByron.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250329191042_tablasData")]
-    partial class tablasData
+    [Migration("20250401012115_Creartablas")]
+    partial class Creartablas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,17 +226,14 @@ namespace app.projectCholcaByron.DataAccess.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("VentaId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VentaId1")
+                    b.Property<int>("VentaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductoId");
 
-                    b.HasIndex("VentaId1");
+                    b.HasIndex("VentaId");
 
                     b.ToTable("VentaDetalles");
                 });
@@ -273,7 +270,7 @@ namespace app.projectCholcaByron.DataAccess.Migrations
 
                     b.HasOne("app.projectCholcaByron.Entities.Models.Venta", "Venta")
                         .WithMany()
-                        .HasForeignKey("VentaId1")
+                        .HasForeignKey("VentaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

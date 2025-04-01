@@ -66,7 +66,7 @@ namespace app.projectCholcaByron.Entities.Models
     {
         public int ClienteId { get; set; }
 
-        public Cliente Cliente { get; set; }
+        public Cliente? Cliente { get; set; }
 
         public DateTime FechaVenta { get; set; }
 
@@ -79,7 +79,7 @@ namespace app.projectCholcaByron.Entities.Models
 
     public class VentaDetalle : EntityBase
     {
-        public string? VentaId { get; set; }
+        public int VentaId { get; set; }
 
         public Venta Venta { get; set; }
 

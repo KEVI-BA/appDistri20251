@@ -3,7 +3,7 @@ using app.projectCholcaByron.Entities.Models;
 
 namespace app.projectCholcaByron.DataAccess.repositories
 {
-    public class CategoriaRepository : CrudGenericService<Categoria>, ICategoriaRepository
+    public class CategoriaRepository : CrudGenericService<Categoria>,  ICategoriaRepository
     {
         public CategoriaRepository(AppDbContext context) : base(context)
         {
@@ -22,7 +22,7 @@ namespace app.projectCholcaByron.DataAccess.repositories
 
         public async Task<Categoria> GetCategoria(int id)
         {
-            return await SelectEntity(id);
+           return await SelectEntity(id);
         }
 
         public async Task<List<Categoria>> GetCategoriaLista()
@@ -32,7 +32,7 @@ namespace app.projectCholcaByron.DataAccess.repositories
 
         public async Task UpdateCategoria(Categoria entity)
         {
-            await UpdateEntity(entity);
+            await UpdateCategoria(entity);
         }
     }
 }

@@ -223,17 +223,14 @@ namespace app.projectCholcaByron.DataAccess.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("VentaId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VentaId1")
+                    b.Property<int>("VentaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductoId");
 
-                    b.HasIndex("VentaId1");
+                    b.HasIndex("VentaId");
 
                     b.ToTable("VentaDetalles");
                 });
@@ -270,7 +267,7 @@ namespace app.projectCholcaByron.DataAccess.Migrations
 
                     b.HasOne("app.projectCholcaByron.Entities.Models.Venta", "Venta")
                         .WithMany()
-                        .HasForeignKey("VentaId1")
+                        .HasForeignKey("VentaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

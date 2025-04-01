@@ -29,14 +29,12 @@ namespace app.projectCholcaByron.DataAccess
             return entity;
         }
 
-
         public async Task<List<TEntityBase>> SelectEntitiesAll()
         {
             var entities = await _context.Set<TEntityBase>().ToListAsync();
             if (entities == null) return null!;
             return entities;
         }
-
 
         public async Task UpdateEntity(TEntityBase entity)
         {

@@ -1,4 +1,5 @@
 using app.projectCholcaByron.DataAccess.context;
+using app.projectCholcaByron.DataAccess.repositories;
 using app.projectCholcaByron.services.Implementations;
 using app.projectCholcaByron.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
 //LA CADENA DE CONEXION ESTA EN EL appsettings.json
 //CON EL SIGUIENTA LINEA OBTENEMOS LA CADENA DE CONEXIONA SQL SERVER
 var conSqlServer = builder.Configuration.GetConnectionString("BDDSqlServer")!;
@@ -23,9 +22,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
 });
 
-
-
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
 var app = builder.Build();
 
