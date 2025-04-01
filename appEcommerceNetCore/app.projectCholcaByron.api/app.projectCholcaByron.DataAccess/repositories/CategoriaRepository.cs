@@ -32,7 +32,7 @@ namespace app.projectCholcaByron.DataAccess.repositories
 
         public async Task UpdateCategoria(Categoria entity)
         {
-            await UpdateCategoria(entity);
+            await UpdateEntity(entity);
         }
     }
 }
