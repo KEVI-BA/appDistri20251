@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\app.proyectKevinBarre.accessData\app.proyectKevinBarre.accessData.csproj" />
+    <ProjectReference Include="..\app.proyectKevinBarre.common\app.proyectKevinBarre.common.csproj" />
+  </ItemGroup>
+
 </Project>

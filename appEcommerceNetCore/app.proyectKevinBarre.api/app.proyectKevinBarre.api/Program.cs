@@ -1,4 +1,7 @@
 using app.proyectKevinBarre.accessData.Context;
+using app.proyectKevinBarre.accessData.repositories;
+using app.proyectKevinBarre.services.Implementations;
+using app.proyectKevinBarre.services.Interfaces;
 using Microsoft.EntityFrameworkCore; 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +23,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(conSqlCoconecction);
     options.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
 });
+
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
 
 var app = builder.Build();

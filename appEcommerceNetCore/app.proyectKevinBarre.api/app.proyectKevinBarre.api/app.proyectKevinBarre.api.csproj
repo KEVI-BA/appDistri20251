@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\app.proyectKevinBarre.accessData\app.proyectKevinBarre.accessData.csproj" />
+    <ProjectReference Include="..\app.proyectKevinBarre.services\app.proyectKevinBarre.services.csproj" />
   </ItemGroup>
 
 </Project>
