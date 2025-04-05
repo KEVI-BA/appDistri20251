@@ -14,6 +14,6 @@ namespace app.proyectKevinBarre.services.Interfaces
 
         Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request);
 
-        Task<BaseResponse<string>> EliminarCategoria(int id);
+        Task<BaseResponse<CategoriaDto>> EliminarCategoria(int id);
     }
 }

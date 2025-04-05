@@ -79,7 +79,7 @@ namespace app.proyectKevinBarre.entities.Models
 
     public class VentaDetalle : EntityBase
     {
-        public string? VentaId { get; set; }
+        public int? VentaId { get; set; }
 
         public Venta? Venta { get; set; }
 

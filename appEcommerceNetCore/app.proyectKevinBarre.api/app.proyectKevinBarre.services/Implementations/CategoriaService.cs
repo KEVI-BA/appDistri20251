@@ -20,9 +20,42 @@ namespace app.proyectKevinBarre.services.Implementations
             _repository = repository;
         }
 
-        public Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request)
+        public async Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request)
         {
-            throw new NotImplementedException();
+            var response = new BaseResponse<CategoriaDto>();
+            try
+            {
+
+                var categoria = await _repository.GetCategoria(id);
+                if (categoria == null)
+                {
+                    response.Success = false;
+                    response.ErrorMessage = $"No se encontró la categoría con ID {id}";
+                    return response;
+                }
+
+                
+                categoria.Nombre = request.Nombre;
+                categoria.Descripcion = request.Descripcion;
+
+                await _repository.UpdateCategoria(categoria); 
+                response.Result = new CategoriaDto
+                {
+                    Id = categoria.Id,
+                    Nombre = categoria.Nombre,
+                    Descripcion = categoria.Descripcion
+                };
+
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response;
+
         }
 
         public async Task<BaseResponse<CategoriaDto>> CrearCategoria(CategoriaRequest request)
@@ -53,9 +86,41 @@ namespace app.proyectKevinBarre.services.Implementations
             return response;
         }
 
-        public Task<BaseResponse<string>> EliminarCategoria(int id)
+        public async Task<BaseResponse<CategoriaDto>> EliminarCategoria(int id)
         {
-            throw new NotImplementedException();
+            var response = new BaseResponse<CategoriaDto>();
+
+            try
+            {
+                var categoria = await _repository.GetCategoria(id); 
+                if (categoria == null)
+                {
+                    response.Success = false;
+                    response.ErrorMessage = $"No se encontró la categoría con ID {id}";
+                    return response;
+                }
+
+                categoria.Estado = false;
+
+                await _repository.DeleteCategoria(id);
+                response.Result = new CategoriaDto
+                {
+                    Id = categoria.Id,
+                    Nombre = categoria.Nombre,
+                    Descripcion = categoria.Descripcion
+                }; 
+
+                response.Success = true;
+                
+                
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response; 
         }
 
         public async Task<BaseResponse<CategoriaDto>> GetCategoria(int id)

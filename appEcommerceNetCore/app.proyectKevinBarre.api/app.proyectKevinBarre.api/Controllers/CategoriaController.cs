@@ -54,5 +54,19 @@ namespace app.proyectKevinBarre.api.Controllers
             return Ok(await _categoriaService.ActualizarCategoria(id, request));
         }
 
+        [HttpDelete("eliminar/{id}")]
+        public async Task<IActionResult> EliminarCategoria(int id) 
+        {
+            var response = await _categoriaService.EliminarCategoria(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound(response);
+            }
+
+        }
     }
 }

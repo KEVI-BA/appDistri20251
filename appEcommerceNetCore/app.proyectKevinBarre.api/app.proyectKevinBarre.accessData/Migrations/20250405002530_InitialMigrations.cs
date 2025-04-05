@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace app.proyectKevinBarre.accessData.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -117,8 +117,7 @@ namespace app.proyectKevinBarre.accessData.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VentaId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VentaId1 = table.Column<int>(type: "int", nullable: true),
+                    VentaId = table.Column<int>(type: "int", nullable: true),
                     NumeroItem = table.Column<int>(type: "int", nullable: false),
                     ProductoId = table.Column<int>(type: "int", nullable: false),
                     PrecioUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -137,8 +136,8 @@ namespace app.proyectKevinBarre.accessData.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VentaDetalle_Venta_VentaId1",
-                        column: x => x.VentaId1,
+                        name: "FK_VentaDetalle_Venta_VentaId",
+                        column: x => x.VentaId,
                         principalTable: "Venta",
                         principalColumn: "Id");
                 });
@@ -159,9 +158,9 @@ namespace app.proyectKevinBarre.accessData.Migrations
                 column: "ProductoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VentaDetalle_VentaId1",
+                name: "IX_VentaDetalle_VentaId",
                 table: "VentaDetalle",
-                column: "VentaId1");
+                column: "VentaId");
         }
 
         /// <inheritdoc />

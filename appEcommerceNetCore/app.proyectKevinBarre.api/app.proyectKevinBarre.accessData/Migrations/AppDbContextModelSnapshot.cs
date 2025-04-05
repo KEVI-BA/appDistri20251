@@ -223,17 +223,14 @@ namespace app.proyectKevinBarre.accessData.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("VentaId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("VentaId1")
+                    b.Property<int?>("VentaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductoId");
 
-                    b.HasIndex("VentaId1");
+                    b.HasIndex("VentaId");
 
                     b.ToTable("VentaDetalle");
                 });
@@ -270,7 +267,7 @@ namespace app.proyectKevinBarre.accessData.Migrations
 
                     b.HasOne("app.proyectKevinBarre.entities.Models.Venta", "Venta")
                         .WithMany()
-                        .HasForeignKey("VentaId1");
+                        .HasForeignKey("VentaId");
 
                     b.Navigation("Producto");
 
