@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using app.projectCholcaByron.common.Dto;
 using app.projectCholcaByron.DataAccess.repositories;
 using app.projectCholcaByron.Entities.Models;
+using app.projectCholcaByron.services.eventMQ;
 using app.projectCholcaByron.services.Interfaces;
 using ECommerce_NetCore.Dto.Request;
 
@@ -14,10 +15,12 @@ namespace app.projectCholcaByron.services.Implementations
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _repository;
+        private readonly IRabbitMQService _rabbitMQService;
 
-        public CategoriaService(ICategoriaRepository repository)
+        public CategoriaService(ICategoriaRepository repository, IRabbitMQService rabbitMQService)
         {
             _repository = repository;
+            _rabbitMQService = rabbitMQService;
         }
 
         public async Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request)
@@ -71,6 +74,8 @@ namespace app.projectCholcaByron.services.Implementations
                 };
 
                 response.Success = true;
+
+               await _rabbitMQService.PublishMessage(response.Result, "categoriasQueue");
             }
             catch (Exception ex)
             {
