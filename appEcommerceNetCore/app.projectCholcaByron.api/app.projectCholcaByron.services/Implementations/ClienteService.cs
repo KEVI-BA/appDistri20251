@@ -1,13 +1,15 @@
 ﻿using app.projectCholcaByron.common.Dto;
 using app.projectCholcaByron.DataAccess.repositories;
 using app.projectCholcaByron.Entities.Models;
+using app.projectCholcaByron.services.eventMQ;
 using app.projectCholcaByron.services.Interfaces;
 
 namespace app.projectCholcaByron.services.Implementations
 {
-    public class ClienteService(IClienteRepository repository) : IClienteService
+    public class ClienteService(IClienteRepository repository, IRabbitMQService rabbitMQService) : IClienteService
     {
         private readonly IClienteRepository _repository = repository;
+        private readonly IRabbitMQService _rabbitMQService = rabbitMQService;
 
 
         public async Task<BaseResponse<ClienteDto>> ActualizarEntidad(int id, ClienteDto request)
@@ -70,6 +72,8 @@ namespace app.projectCholcaByron.services.Implementations
                     FechaNacimiento = cliente.FechaNacimiento
                 };
                 response.Success = true;
+
+                await _rabbitMQService.PublishMessage(response.Result, "ClienteQueue");
             }
             catch (Exception ex)
             {

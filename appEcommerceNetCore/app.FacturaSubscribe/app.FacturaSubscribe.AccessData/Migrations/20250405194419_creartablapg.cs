@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace app.FacturaSubscribe.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class tablacrear : Migration
+    public partial class creartablapg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
