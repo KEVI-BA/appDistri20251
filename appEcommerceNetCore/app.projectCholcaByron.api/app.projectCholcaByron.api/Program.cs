@@ -1,5 +1,8 @@
+using app.projectCholcaByron.common.EventMQ;
 using app.projectCholcaByron.DataAccess.context;
 using app.projectCholcaByron.DataAccess.repositories;
+using app.projectCholcaByron.services.eventMQ;
+using app.projectCholcaByron.services.EventMQ;
 using app.projectCholcaByron.services.Implementations;
 using app.projectCholcaByron.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+// Leer la configuración de RabbitMQ desde appsettings.json
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("rabbitmq"));
+
+
+
 //LA CADENA DE CONEXION ESTA EN EL appsettings.json
 //CON EL SIGUIENTA LINEA OBTENEMOS LA CADENA DE CONEXIONA SQL SERVER
 var conSqlServer = builder.Configuration.GetConnectionString("BDDSqlServer")!;
@@ -24,6 +33,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+
+builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
+
 
 var app = builder.Build();
 

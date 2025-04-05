@@ -25,8 +25,12 @@ namespace app.projectCholcaByron.api.Controllers
             return Ok("Hola Mundo -- categoria");
         }
 
-        [HttpPost("obtenerCategoria")]
-        public async Task<IActionResult> ObtenerCategoria()
+
+        /**
+         * API PARA OBTENER TODAS LAS CATEGORIAS
+         * */
+        [HttpPost("obtenerCategorias")]
+        public async Task<IActionResult> ObtenerCategorias()
         {
             var result = await _categoriaService.GetCategoriaLista();
             if(result.Success)
@@ -39,19 +43,62 @@ namespace app.projectCholcaByron.api.Controllers
             }
         }
 
+
+
+
+        /**
+        * API PARA INSERTAR UNA CATEGORIA
+        * */
         [HttpPost("insertarCategoria")]
         public async Task<IActionResult> PostCategories([FromBody] CategoriaRequest request)
         {
             var response = await _categoriaService.CrearCategoria(request);
-
             return Ok(response);
         }
 
+
+
+        /**
+        * API PARA OBTENER UNA CATEGORIA POR ID
+        * */
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> ObtenerCategoria(int id)
+        {
+            var response = await _categoriaService.GetCategoria(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound(response);
+            }
+        }
+
+
+
+        /**
+         * API PARA ACTUALIZAR UNA CATEGORIA POR ID
+         * */
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> PutCategories(int id, [FromBody] CategoriaRequest request)
+        public async Task<IActionResult> ActualizarCategories(int id, [FromBody] CategoriaRequest request)
         {
-            return Ok(await _categoriaService.ActualizarCategoria(id, request));
+            var result = await _categoriaService.ActualizarCategoria(id, request);
+            return Ok(result);
+        }
+
+
+        /**
+         * API PARA ELIMINAR UNA CATEGORIA POR ID
+         * */
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> EliminarCategories(int id)
+        {
+            var result = await _categoriaService.EliminarCategoria(id);
+            return Ok(result);
         }
 
     }

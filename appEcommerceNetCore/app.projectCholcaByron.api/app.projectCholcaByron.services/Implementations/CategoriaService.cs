@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using app.projectCholcaByron.common.Dto;
 using app.projectCholcaByron.DataAccess.repositories;
 using app.projectCholcaByron.Entities.Models;
+using app.projectCholcaByron.services.eventMQ;
 using app.projectCholcaByron.services.Interfaces;
 using ECommerce_NetCore.Dto.Request;
 
@@ -14,15 +15,42 @@ namespace app.projectCholcaByron.services.Implementations
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _repository;
+        private readonly IRabbitMQService _rabbitMQService;
 
-        public CategoriaService(ICategoriaRepository repository)
+        public CategoriaService(ICategoriaRepository repository, IRabbitMQService rabbitMQService)
         {
             _repository = repository;
+            _rabbitMQService = rabbitMQService;
         }
 
-        public Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request)
+        public async Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request)
         {
-            throw new NotImplementedException();
+            var response = new BaseResponse<CategoriaDto>();
+            try
+            {
+                Categoria categoria = new();
+                categoria.Id = id;
+                categoria.Nombre = request.Nombre;
+                categoria.Descripcion = request.Descripcion;
+                categoria.Fecha = DateTime.Now;
+                categoria.Estado = true;
+
+                await _repository.UpdateCategoria(categoria);
+
+                response.Result = new CategoriaDto
+                {
+                    Id = categoria.Id,
+                    Nombre = categoria.Nombre,
+                    Descripcion = categoria.Descripcion,
+                };
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+            return response;
         }
 
         public async Task<BaseResponse<CategoriaDto>> CrearCategoria(CategoriaRequest request)
@@ -33,6 +61,8 @@ namespace app.projectCholcaByron.services.Implementations
                 Categoria categoryEntity = new();
                 categoryEntity.Nombre = request.Nombre;
                 categoryEntity.Descripcion = request.Descripcion;
+                categoryEntity.Estado = true;
+                categoryEntity.Fecha = DateTime.Now;
 
                 var categoria = await _repository.CreateCategoria(categoryEntity);
 
@@ -44,6 +74,8 @@ namespace app.projectCholcaByron.services.Implementations
                 };
 
                 response.Success = true;
+
+               await _rabbitMQService.PublishMessage(response.Result, "categoriasQueue");
             }
             catch (Exception ex)
             {
@@ -53,9 +85,24 @@ namespace app.projectCholcaByron.services.Implementations
             return response;
         }
 
-        public Task<BaseResponse<string>> EliminarCategoria(int id)
+        public async Task<BaseResponse<string>> EliminarCategoria(int id)
         {
-            throw new NotImplementedException();
+            var response = new BaseResponse<string>();
+
+            try
+            {
+                await _repository.DeleteCategoria(id);
+
+                response.Result = "OK";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response;
         }
 
         public async Task<BaseResponse<CategoriaDto>> GetCategoria(int id)
