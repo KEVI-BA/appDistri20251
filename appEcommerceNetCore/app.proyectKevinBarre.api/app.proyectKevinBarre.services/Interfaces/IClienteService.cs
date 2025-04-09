@@ -19,6 +19,5 @@ namespace app.proyectKevinBarre.services.Interfaces
 
         Task<BaseResponse<ClienteDto>> ActualizarCliente(int id, ClienteRequest request);
 
-        Task<BaseResponse<string>> EliminarCliente(int id);
     }
 }

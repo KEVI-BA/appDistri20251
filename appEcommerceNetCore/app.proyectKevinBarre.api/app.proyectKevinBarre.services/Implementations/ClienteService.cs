@@ -62,6 +62,7 @@ namespace app.proyectKevinBarre.services.Implementations
         }
 
         public Task<BaseResponse<string>> EliminarCliente(int id)
+            try
         {
             throw new NotImplementedException();
         }
