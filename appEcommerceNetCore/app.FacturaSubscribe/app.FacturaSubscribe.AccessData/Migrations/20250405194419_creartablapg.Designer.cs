@@ -12,8 +12,8 @@ using app.FacturaSubscribe.DataAccess.Context;
 namespace app.FacturaSubscribe.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250405145853_tablacrear")]
-    partial class tablacrear
+    [Migration("20250405194419_creartablapg")]
+    partial class creartablapg
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

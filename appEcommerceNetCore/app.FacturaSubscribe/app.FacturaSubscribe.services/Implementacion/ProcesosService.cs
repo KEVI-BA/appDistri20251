@@ -20,5 +20,6 @@ namespace app.FacturaSubscribe.services.Implementacion
             _context.Entry(categoria).State = EntityState.Added;
             await _context.SaveChangesAsync();
         }
+
     }
 }
