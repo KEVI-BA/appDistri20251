@@ -15,31 +15,30 @@ namespace app.proyectKevinBarre.accessData.repositories
         }
 
 
-        public  async Task<Producto> CreateProducto(Producto entity)
+        public async Task<Producto> CreateEntidad(Producto entity)
         {
             return await InsertEntity(entity);
         }
 
-        public async Task DeleteProducto(int id)
+        public async Task DeleteEntidad(int id)
         {
             await DeleteEntity(id);
         }
 
-        public async Task<Producto> GetProducto(int id)
+        public async Task<Producto> GetEntidad(int id)
         {
-            return await SelectEntity(id); 
+            return await SelectEntity(id);
         }
 
-        public async Task<List<Producto>> GetProductoLista()
+        public async Task<List<Producto>> ObtenerEntidadesLista()
         {
             return await SelectEntitiesAll();
         }
 
-        public async Task UpdateProducto(Producto entity)
+        public async Task UpdateEntidad(Producto entity)
         {
-           await UpdateProducto(entity);
+            await UpdateEntity(entity);
         }
 
-       
     }
 }

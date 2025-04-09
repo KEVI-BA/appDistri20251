@@ -14,29 +14,29 @@ namespace app.proyectKevinBarre.accessData.repositories
         { 
         }
 
-        public async Task<Cliente> CreateCliente(Cliente entity)
+        public async Task<Cliente> CreateEntidad(Cliente entity)
         {
            return await InsertEntity(entity);
         }
 
-        public async Task DeleteCliente(int id)
+        public async Task DeleteEntidad(int id)
         {
             await DeleteEntity(id);
         }
 
-        public async Task<Cliente> GetCliente(int id)
+        public async Task<Cliente> GetEntidad(int id)
         {
             return await SelectEntity(id);
         }
 
-        public async Task<List<Cliente>> GetClienteLista()
+        public async Task<List<Cliente>> ObtenerEntidadesLista()
         {
             return await SelectEntitiesAll(); 
         }
 
-        public async Task UpdateCliente(Cliente entity)
+        public async Task UpdateEntidad(Cliente entity)
         {
-            await UpdateCliente(entity);
+            await UpdateEntity(entity);
         }
     }
 }

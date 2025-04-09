@@ -5,14 +5,14 @@ namespace app.proyectKevinBarre.accessData.repositories
 {
     public interface ICategoriaRepository
     {
-        Task<Categoria> GetCategoria(int id);
+        Task<Categoria> GetEntidad(int id);
 
-        Task<Categoria> CreateCategoria(Categoria entity);
+        Task<Categoria> CreateEntidad(Categoria entity);
 
-        Task<List<Categoria>> GetCategoriaLista();
+        Task<List<Categoria>> ObtenerEntidadesLista();
 
-        Task UpdateCategoria(Categoria entity);
+        Task UpdateEntidad(Categoria entity);
 
-        Task DeleteCategoria(int id);
+        Task DeleteEntidad(int id);
     }
 }

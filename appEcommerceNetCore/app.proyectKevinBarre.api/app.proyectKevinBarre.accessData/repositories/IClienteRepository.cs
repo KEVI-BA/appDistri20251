@@ -5,14 +5,14 @@ namespace app.proyectKevinBarre.accessData.repositories
 {
     public interface IClienteRepository
     {
-        Task<Cliente> GetCliente(int id);
+        Task<Cliente> GetEntidad(int id);
 
-        Task<Cliente> CreateCliente(Cliente entity);
+        Task<Cliente> CreateEntidad(Cliente entity);
 
-        Task<List<Cliente>> GetClienteLista();
+        Task<List<Cliente>> ObtenerEntidadesLista();
 
-        Task UpdateCliente(Cliente entity);
+        Task UpdateEntidad(Cliente entity);
 
-        Task DeleteCliente(int id);
+        Task DeleteEntidad(int id);
     }
 }

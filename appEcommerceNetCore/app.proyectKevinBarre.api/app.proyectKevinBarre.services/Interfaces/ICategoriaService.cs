@@ -6,14 +6,14 @@ namespace app.proyectKevinBarre.services.Interfaces
 {
     public interface ICategoriaService
     {
-        Task<BaseResponse<CategoriaDto>> GetCategoria(int id);
+        Task<BaseResponse<CategoriaDto>> GetEntidad(int id);
 
-        Task<BaseResponse<List<CategoriaDto>>> GetCategoriaLista();
+        Task<BaseResponse<List<CategoriaDto>>> GetEntidadLista();
 
-        Task<BaseResponse<CategoriaDto>> CrearCategoria(CategoriaRequest request);
+        Task<BaseResponse<CategoriaDto>> CreateEntidad(CategoriaDto request);
 
-        Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request);
+        Task<BaseResponse<CategoriaDto>> ActualizarEntidad(int id, CategoriaDto request);
 
-        Task<BaseResponse<CategoriaDto>> EliminarCategoria(int id);
+        Task<BaseResponse<string>> EliminarEntidad(int id);
     }
 }

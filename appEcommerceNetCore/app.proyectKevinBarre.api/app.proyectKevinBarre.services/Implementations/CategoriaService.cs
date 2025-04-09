@@ -8,44 +8,37 @@ using app.proyectKevinBarre.common.Dto;
 using app.proyectKevinBarre.entities.Models;
 using app.proyectKevinBarre.services.Interfaces;
 using ECommerce_NetCore.Dto.Request;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace app.proyectKevinBarre.services.Implementations
 {
-    public class CategoriaService : ICategoriaService
+    public class CategoriaService(ICategoriaRepository repository) : ICategoriaService
     {
-        private readonly ICategoriaRepository _repository;
+        private readonly ICategoriaRepository _repository = repository;
 
-        public CategoriaService(ICategoriaRepository repository)
-        {
-            _repository = repository;
-        }
+       
 
-        public async Task<BaseResponse<CategoriaDto>> ActualizarCategoria(int id, CategoriaRequest request)
+        public async Task<BaseResponse<CategoriaDto>> ActualizarEntidad(int id, CategoriaDto request)
         {
             var response = new BaseResponse<CategoriaDto>();
             try
             {
 
-                var categoria = await _repository.GetCategoria(id);
-                if (categoria == null)
-                {
-                    response.Success = false;
-                    response.ErrorMessage = $"No se encontró la categoría con ID {id}";
-                    return response;
-                }
-
-                
+                Categoria categoria = new();
+                categoria.Id = id;
                 categoria.Nombre = request.Nombre;
                 categoria.Descripcion = request.Descripcion;
+                
 
-                await _repository.UpdateCategoria(categoria); 
+                await _repository.UpdateEntidad(categoria);
+
+
                 response.Result = new CategoriaDto
                 {
                     Id = categoria.Id,
                     Nombre = categoria.Nombre,
-                    Descripcion = categoria.Descripcion
+                    Descripcion = request.Descripcion
                 };
-
                 response.Success = true;
             }
             catch (Exception ex)
@@ -58,7 +51,7 @@ namespace app.proyectKevinBarre.services.Implementations
 
         }
 
-        public async Task<BaseResponse<CategoriaDto>> CrearCategoria(CategoriaRequest request)
+        public async Task<BaseResponse<CategoriaDto>> CreateEntidad(CategoriaDto request)
         {
             var response = new BaseResponse<CategoriaDto>();
             try
@@ -67,7 +60,7 @@ namespace app.proyectKevinBarre.services.Implementations
                 categoryEntity.Nombre = request.Nombre;
                 categoryEntity.Descripcion = request.Descripcion;
 
-                var categoria = await _repository.CreateCategoria(categoryEntity);
+                var categoria = await _repository.CreateEntidad(categoryEntity);
 
                 response.Result = new CategoriaDto
                 {
@@ -86,33 +79,15 @@ namespace app.proyectKevinBarre.services.Implementations
             return response;
         }
 
-        public async Task<BaseResponse<CategoriaDto>> EliminarCategoria(int id)
+        public async Task<BaseResponse<string>> EliminarEntidad(int id)
         {
-            var response = new BaseResponse<CategoriaDto>();
-
+            var response = new BaseResponse<string>();
             try
             {
-                var categoria = await _repository.GetCategoria(id); 
-                if (categoria == null)
-                {
-                    response.Success = false;
-                    response.ErrorMessage = $"No se encontró la categoría con ID {id}";
-                    return response;
-                }
+                await _repository.DeleteEntidad(id);
 
-                categoria.Estado = false;
-
-                await _repository.DeleteCategoria(id);
-                response.Result = new CategoriaDto
-                {
-                    Id = categoria.Id,
-                    Nombre = categoria.Nombre,
-                    Descripcion = categoria.Descripcion
-                }; 
-
+                response.Result = "OK";
                 response.Success = true;
-                
-                
             }
             catch (Exception ex)
             {
@@ -120,15 +95,15 @@ namespace app.proyectKevinBarre.services.Implementations
                 response.ErrorMessage = ex.Message;
             }
 
-            return response; 
+            return response;
         }
 
-        public async Task<BaseResponse<CategoriaDto>> GetCategoria(int id)
+        public async Task<BaseResponse<CategoriaDto>> GetEntidad(int id)
         {
             var response = new BaseResponse<CategoriaDto>();
             try
             {
-                var categoria = await _repository.GetCategoria(id);
+                var categoria = await _repository.GetEntidad(id);
                 if (categoria == null)
                 {
                     response.Success = false;
@@ -155,20 +130,31 @@ namespace app.proyectKevinBarre.services.Implementations
         }
 
 
-        public async Task<BaseResponse<List<CategoriaDto>>> GetCategoriaLista()
+        public async Task<BaseResponse<List<CategoriaDto>>> GetEntidadLista()
         {
             var response = new BaseResponse<List<CategoriaDto>>();
             try
             {
-                var result = await _repository.GetCategoriaLista();
+                var result = await _repository.ObtenerEntidadesLista();
 
                 response.Result = result.Select(p => new CategoriaDto
                 {
                     Id = p.Id,
                     Nombre = p.Nombre,
                     Descripcion = p.Descripcion
+
                 }).ToList();
-                response.Success = true;
+
+                if (response.Result.Count > 0)
+                {
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.ErrorMessage = "Datos vacíos";
+                }
+                
             }
             catch (Exception ex)
             {

@@ -11,34 +11,63 @@ using ECommerce_NetCore.Dto.Request;
 
 namespace app.proyectKevinBarre.services.Implementations
 {
-    public class ClienteService : IClienteService
+    public class ClienteService(IClienteRepository repository ) : IClienteService
     {
-        private readonly IClienteRepository _repository;
+        private readonly IClienteRepository _repository = repository;
 
-        public ClienteService(IClienteRepository repository)
-        {
-            _repository = repository;
-        }
 
-        public Task<BaseResponse<ClienteDto>> ActualizarCliente(int id, ClienteRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<BaseResponse<ClienteDto>> CrearCliente(ClienteRequest request)
+        public async Task<BaseResponse<ClienteDto>> ActualizarEntidad(int id, ClienteDto request)
         {
             var response = new BaseResponse<ClienteDto>();
             try
             {
-                Cliente categoryEntity = new();
-                categoryEntity.Nombre = request.Nombre;
-                categoryEntity.Apellido = request.Apellido;
-                categoryEntity.Email = request.Email;
-                categoryEntity.FechaNacimiento = request.FechaNacimiento;
-                categoryEntity.CedulaIdentidad = request.CedulaIdentidad;
-                
+                Cliente cliente = new(); 
+                cliente.Id = id;
+                cliente.Nombre = request.Nombre;
+                cliente.Apellido = request.Apellido;
+                cliente.Email = request.Email;
+                cliente.FechaNacimiento = request.FechaNacimiento;
+                cliente.Fecha = DateTime.Now;
+                cliente.CedulaIdentidad = request.CedulaIdentidad;
 
-                var cliente = await _repository.CreateCliente(categoryEntity);
+                await _repository.UpdateEntidad(cliente); 
+
+              
+                 response.Result  = new ClienteDto
+                {
+                    Id = cliente.Id,
+                    Nombre = cliente.Nombre,
+                    Apellido = cliente.Apellido,
+                    Email = cliente.Email,
+                    CedulaIdentidad = cliente.CedulaIdentidad,
+                    FechaNacimiento = cliente.FechaNacimiento
+                }; 
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse<ClienteDto>> CrearEntidad(ClienteDto request)
+        {
+            var response = new BaseResponse<ClienteDto>();
+            try
+            {
+                Cliente cliente = new();
+                cliente.Nombre = request.Nombre;
+                cliente.Apellido = request.Apellido;
+                cliente.Email = request.Email;
+                cliente.FechaNacimiento = request.FechaNacimiento;
+                cliente.Fecha = DateTime.Now;
+                cliente.CedulaIdentidad = request.CedulaIdentidad;
+
+
+                cliente = await _repository.CreateEntidad(cliente);
 
                 response.Result = new ClienteDto
                 {
@@ -61,18 +90,31 @@ namespace app.proyectKevinBarre.services.Implementations
             return response;
         }
 
-        public Task<BaseResponse<string>> EliminarCliente(int id)
-            try
+        public async Task<BaseResponse<string>> EliminarEntidad(int id)
         {
-            throw new NotImplementedException();
+            var  response = new BaseResponse<string>();
+            try
+            {
+                await _repository.DeleteEntidad(id);
+
+                response.Result = "OK";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response;
         }
 
-        public async Task<BaseResponse<ClienteDto>> GetCliente(int id)
+        public async Task<BaseResponse<ClienteDto>> GetEntidad(int id)
         {
             var response = new BaseResponse<ClienteDto>();
             try
             {
-                var cliente = await _repository.GetCliente(id);
+                var cliente = await _repository.GetEntidad(id);
                 if (cliente == null)
                 {
                     response.Success = false;
@@ -102,12 +144,12 @@ namespace app.proyectKevinBarre.services.Implementations
         }
 
 
-        public async Task<BaseResponse<List<ClienteDto>>> GetClienteLista()
+        public async Task<BaseResponse<List<ClienteDto>>> GetEntidadLista()
         {
             var response = new BaseResponse<List<ClienteDto>>();
             try
             {
-                var result = await _repository.GetClienteLista();
+                var result = await _repository.ObtenerEntidadesLista();
 
                 response.Result = result.Select(p => new ClienteDto
                 {
@@ -119,7 +161,16 @@ namespace app.proyectKevinBarre.services.Implementations
                     CedulaIdentidad = p.CedulaIdentidad,
 
                 }).ToList();
-                response.Success = true;
+
+                if (response.Result.Count > 0)
+                {
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.ErrorMessage = "Datos vacíos";
+                }
             }
             catch (Exception ex)
             {

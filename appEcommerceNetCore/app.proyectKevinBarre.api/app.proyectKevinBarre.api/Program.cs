@@ -26,11 +26,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
+builder.Services.AddScoped<IVentaService, VentaService>();
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+
+builder.Services.AddScoped<IVentaDetalleService, VentaDetalleService>();
+builder.Services.AddScoped<IVentaDetalleRepository, VentaDetalleRepository>();
 
 var app = builder.Build();
 

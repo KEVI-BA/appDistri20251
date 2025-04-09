@@ -18,8 +18,6 @@ namespace app.proyectKevinBarre.common.Dto
 
         public int CategoriaId { get; set; }
 
-        public Categoria? Categoria { get; set; }
-
         public decimal PrecioUnitario { get; set; }
     }
 }

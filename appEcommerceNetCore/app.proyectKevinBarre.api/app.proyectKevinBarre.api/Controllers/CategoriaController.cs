@@ -1,4 +1,6 @@
-﻿using app.proyectKevinBarre.services.Interfaces;
+﻿using app.proyectKevinBarre.common.Dto;
+using app.proyectKevinBarre.services.Implementations;
+using app.proyectKevinBarre.services.Interfaces;
 using Azure;
 using ECommerce_NetCore.Dto.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -19,16 +21,10 @@ namespace app.proyectKevinBarre.api.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult GetHelloWorld()
-        {
-            return Ok("Hola Mundo -- categoria");
-        }
-
-        [HttpPost("obtenerCategoria")]
+        [HttpGet("obtenerCategoria")]
         public async Task<IActionResult> ObtenerCategoria()
         {
-            var result = await _categoriaService.GetCategoriaLista();
+            var result = await _categoriaService.GetEntidadLista();
             if(result.Success)
             {
                 return Ok(result);
@@ -40,24 +36,18 @@ namespace app.proyectKevinBarre.api.Controllers
         }
 
         [HttpPost("insertarCategoria")]
-        public async Task<IActionResult> PostCategories([FromBody] CategoriaRequest request)
+        public async Task<IActionResult> PostCategories([FromBody] CategoriaDto request)
         {
-            var response = await _categoriaService.CrearCategoria(request);
+            var response = await _categoriaService.CreateEntidad(request);
 
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> PutCategories(int id, [FromBody] CategoriaRequest request)
+        public async Task<IActionResult> Obtener(int id)
         {
-            return Ok(await _categoriaService.ActualizarCategoria(id, request));
-        }
-
-        [HttpDelete("eliminar/{id}")]
-        public async Task<IActionResult> EliminarCategoria(int id) 
-        {
-            var response = await _categoriaService.EliminarCategoria(id);
+            var response = await _categoriaService.GetEntidad(id);
             if (response.Success)
             {
                 return Ok(response);
@@ -66,7 +56,24 @@ namespace app.proyectKevinBarre.api.Controllers
             {
                 return NotFound(response);
             }
+        }
 
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Actualizar(int id, [FromBody] CategoriaDto request)
+        {
+            var result = await _categoriaService.ActualizarEntidad(id, request);
+            return Ok(result);
+        }
+
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var result = await _categoriaService.EliminarEntidad(id);
+            return Ok(result);
         }
     }
 }

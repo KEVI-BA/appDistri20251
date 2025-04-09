@@ -24,7 +24,7 @@ namespace app.proyectKevinBarre.accessData
 
         public async Task<TEntityBase> SelectEntity(int id)
         {
-            var entity = await _context.Set<TEntityBase>().SingleOrDefaultAsync(p => p.Id == id && !p.Estado);
+            var entity = await _context.Set<TEntityBase>().SingleOrDefaultAsync(p => p.Id == id);
             if (entity == null) return null!;
             return entity;
         }

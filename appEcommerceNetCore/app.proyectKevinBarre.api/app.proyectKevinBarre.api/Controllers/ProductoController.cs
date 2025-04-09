@@ -1,4 +1,6 @@
-﻿using app.proyectKevinBarre.services.Interfaces;
+﻿using app.proyectKevinBarre.common.Dto;
+using app.proyectKevinBarre.services.Implementations;
+using app.proyectKevinBarre.services.Interfaces;
 using Azure;
 using ECommerce_NetCore.Dto.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -19,16 +21,10 @@ namespace app.proyectKevinBarre.api.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult GetHelloWorld()
-        {
-            return Ok("Hola Mundo -- categoria");
-        }
-
-        [HttpPost("obtenerProducto")]
+        [HttpGet("obtenerProducto")]
         public async Task<IActionResult> ObtenerProducto()
         {
-            var result = await _productoService.GetProductoLista();
+            var result = await _productoService.GetEntidadLista();
             if(result.Success)
             {
                 return Ok(result);
@@ -40,18 +36,44 @@ namespace app.proyectKevinBarre.api.Controllers
         }
 
         [HttpPost("insertarProducto")]
-        public async Task<IActionResult> PostProductos([FromBody] ProductoRequest request)
+        public async Task<IActionResult> PostProductos([FromBody] ProductoDto request)
         {
-            var response = await _productoService.CrearProducto(request);
+            var response = await _productoService.CrearEntidad(request);
 
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> Obtener(int id)
+        {
+            var response = await _productoService.GetEntidad(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound(response);
+            }
+        }
+
+
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> PutProductos(int id, [FromBody] ProductoRequest request)
+        public async Task<IActionResult> Actualizar(int id, [FromBody] ProductoDto request)
         {
-            return Ok(await _productoService.ActualizarProducto(id, request));
+            var result = await _productoService.ActualizarEntidad(id, request);
+            return Ok(result);
+        }
+
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var result = await _productoService.EliminarEntidad(id);
+            return Ok(result);
         }
 
     }

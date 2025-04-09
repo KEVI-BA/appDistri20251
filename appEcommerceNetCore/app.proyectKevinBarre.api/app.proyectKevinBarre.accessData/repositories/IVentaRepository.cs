@@ -9,14 +9,14 @@ namespace app.proyectKevinBarre.accessData.repositories
 {
     public interface IVentaRepository
     {
-        Task<Venta> GetCategoria(int id);
+        Task<Venta> GetEntidad(int id);
 
-        Task<Venta> CreateCategoria(Venta entity);
+        Task<Venta> CreateEntidad(Venta entity);
 
-        Task<List<Venta>> GetCategoriaLista();
+        Task<List<Venta>> ObtenerEntidadesLista();
 
-        Task UpdateCategoria(Venta entity);
+        Task UpdateEntidad(Venta entity);
 
-        Task DeleteCategoria(int id);
+        Task DeleteEntidad(int id);
     }
 }

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace app.proyectKevinBarre.accessData.repositories
 {
-    public class VentaRepository : CrudGenericService<Venta>, IVentaRepository
+    public class VentaDetalleRepository : CrudGenericService<VentaDetalle>, IVentaDetalleRepository
     {
-        public VentaRepository(AppDbContext context) : base(context)
+        public VentaDetalleRepository(AppDbContext context) : base(context)
         {
         }
 
-        public async Task<Venta> CreateEntidad(Venta entity)
+        public async Task<VentaDetalle> CreateEntidad(VentaDetalle entity)
         {
             return await InsertEntity(entity);
         }
@@ -24,17 +24,17 @@ namespace app.proyectKevinBarre.accessData.repositories
             await DeleteEntity(id);
         }
 
-        public async Task<Venta> GetEntidad(int id)
+        public async Task<VentaDetalle> GetEntidad(int id)
         {
             return await SelectEntity(id);
         }
 
-        public async Task<List<Venta>> ObtenerEntidadesLista()
+        public async Task<List<VentaDetalle>> ObtenerEntidadesLista()
         {
             return await SelectEntitiesAll();
         }
 
-        public async Task UpdateEntidad(Venta entity)
+        public async Task UpdateEntidad(VentaDetalle entity)
         {
             await UpdateEntity(entity);
         }

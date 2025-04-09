@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace app.proyectKevinBarre.services.Interfaces
 {
-    public interface IProductoService
+    public interface IVentaService
     {
-        Task<BaseResponse<ProductoDto>> GetEntidad(int id);
 
-        Task<BaseResponse<List<ProductoDto>>> GetEntidadLista();
+        Task<BaseResponse<VentaDto>> GetEntidad(int id);
 
-        Task<BaseResponse<ProductoDto>> CrearEntidad(ProductoDto request);
+        Task<BaseResponse<List<VentaDto>>> GetEntidadLista();
 
-        Task<BaseResponse<ProductoDto>> ActualizarEntidad(int id, ProductoDto request);
+        Task<BaseResponse<VentaDto>> CrearEntidad(VentaDto request);
+
+        Task<BaseResponse<VentaDto>> ActualizarEntidad(int id, VentaDto request);
 
         Task<BaseResponse<string>> EliminarEntidad(int id);
+
     }
 }

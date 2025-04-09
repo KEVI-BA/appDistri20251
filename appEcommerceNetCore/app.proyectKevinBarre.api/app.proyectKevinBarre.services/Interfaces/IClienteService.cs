@@ -11,13 +11,15 @@ namespace app.proyectKevinBarre.services.Interfaces
     public interface IClienteService
     {
        
-        Task<BaseResponse<ClienteDto>> GetCliente(int id);
+        Task<BaseResponse<ClienteDto>> GetEntidad(int id);
 
-        Task<BaseResponse<List<ClienteDto>>> GetClienteLista();
+        Task<BaseResponse<List<ClienteDto>>> GetEntidadLista();
 
-        Task<BaseResponse<ClienteDto>> CrearCliente(ClienteRequest request);
+        Task<BaseResponse<ClienteDto>> CrearEntidad(ClienteDto request);
 
-        Task<BaseResponse<ClienteDto>> ActualizarCliente(int id, ClienteRequest request);
+        Task<BaseResponse<ClienteDto>> ActualizarEntidad(int id, ClienteDto request);
+
+        Task<BaseResponse<string>> EliminarEntidad(int id);
 
     }
 }

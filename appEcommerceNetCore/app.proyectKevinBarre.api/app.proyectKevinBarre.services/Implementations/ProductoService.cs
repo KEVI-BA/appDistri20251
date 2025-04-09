@@ -20,25 +20,20 @@ namespace app.proyectKevinBarre.services.Implementations
             _repository = repository;
         }
 
-        public Task<BaseResponse<ProductoDto>> ActualizarProducto(int id, ProductoRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<BaseResponse<ProductoDto>> CrearProducto(ProductoRequest request)
+        public async Task<BaseResponse<ProductoDto>> ActualizarEntidad(int id, ProductoDto request)
         {
             var response = new BaseResponse<ProductoDto>();
             try
             {
-                Producto productEntity = new();
-                productEntity.Nombre = request.Nombre;
-                productEntity.Descripcion = request.Descripcion;
-                productEntity.CategoriaId = request.CategoriaId;
-                productEntity.Categoria= request.Categoria;
-                productEntity.PrecioUnitario = request.PrecioUnitario;
+                Producto producto = new();
+                producto.Id = id;
+                producto.Nombre = request.Nombre;
+                producto.Descripcion = request.Descripcion;
+                producto.CategoriaId = request.CategoriaId;
+                producto.PrecioUnitario = request.PrecioUnitario;
 
+                await _repository.UpdateEntidad(producto);
 
-                var producto = await _repository.CreateProducto(productEntity);
 
                 response.Result = new ProductoDto
                 {
@@ -46,9 +41,41 @@ namespace app.proyectKevinBarre.services.Implementations
                     Nombre = producto.Nombre,
                     Descripcion = producto.Descripcion,
                     CategoriaId = producto.CategoriaId,
-                    Categoria = producto.Categoria,
-                    PrecioUnitario = producto.PrecioUnitario
-                  
+                    PrecioUnitario = producto.PrecioUnitario,
+                };
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse<ProductoDto>> CrearEntidad(ProductoDto request)
+        {
+            var response = new BaseResponse<ProductoDto>();
+            try
+            {
+                Producto producto = new();
+                producto.Nombre = request.Nombre;
+                producto.Descripcion = request.Descripcion;
+                producto.CategoriaId = request.CategoriaId;
+                producto.PrecioUnitario = request.PrecioUnitario;
+
+
+                producto = await _repository.CreateEntidad(producto);
+
+                response.Result = new ProductoDto
+                {
+                    Id = producto.Id,
+                    Nombre = producto.Nombre,
+                    Descripcion = producto.Descripcion,
+                    CategoriaId = producto.CategoriaId,
+                    PrecioUnitario = producto.PrecioUnitario,
+
                 };
 
                 response.Success = true;
@@ -61,17 +88,31 @@ namespace app.proyectKevinBarre.services.Implementations
             return response;
         }
 
-        public Task<BaseResponse<string>> EliminarProducto(int id)
+        public async Task<BaseResponse<string>> EliminarEntidad(int id)
         {
-            throw new NotImplementedException();
+            var response = new BaseResponse<string>();
+            try
+            {
+                await _repository.DeleteEntidad(id);
+
+                response.Result = "OK";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response;
         }
 
-        public async Task<BaseResponse<ProductoDto>> GetProducto(int id)
+        public async Task<BaseResponse<ProductoDto>> GetEntidad(int id)
         {
             var response = new BaseResponse<ProductoDto>();
             try
             {
-                var producto = await _repository.GetProducto(id);
+                var producto = await _repository.GetEntidad(id);
                 if (producto == null)
                 {
                     response.Success = false;
@@ -85,7 +126,6 @@ namespace app.proyectKevinBarre.services.Implementations
                     Nombre = producto.Nombre,
                    Descripcion = producto.Descripcion,
                    CategoriaId = producto.CategoriaId,
-                   Categoria = producto.Categoria,
                    PrecioUnitario = producto.PrecioUnitario
                 };
 
@@ -101,12 +141,12 @@ namespace app.proyectKevinBarre.services.Implementations
         }
 
 
-        public async Task<BaseResponse<List<ProductoDto>>> GetProductoLista()
+        public async Task<BaseResponse<List<ProductoDto>>> GetEntidadLista()
         {
             var response = new BaseResponse<List<ProductoDto>>();
             try
             {
-                var result = await _repository.GetProductoLista();
+                var result = await _repository.ObtenerEntidadesLista();
 
                 response.Result = result.Select(p => new ProductoDto
                 {
@@ -114,11 +154,18 @@ namespace app.proyectKevinBarre.services.Implementations
                     Nombre = p.Nombre,
                     Descripcion = p.Descripcion,
                     CategoriaId = p.CategoriaId,
-                    Categoria = p.Categoria,
                     PrecioUnitario = p.PrecioUnitario
 
                 }).ToList();
-                response.Success = true;
+                if (response.Result.Count > 0)
+                {
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.ErrorMessage = "Datos vacíos";
+                }
             }
             catch (Exception ex)
             {

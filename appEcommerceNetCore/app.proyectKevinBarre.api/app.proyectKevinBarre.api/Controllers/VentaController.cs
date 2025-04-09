@@ -8,21 +8,21 @@ namespace app.proyectKevinBarre.api.Controllers
     
     [ApiController]
     [Route("api/[controller]")]
-    public class ClienteController : Controller
+    public class VentaController : Controller
     {
 
-        private readonly IClienteService _clienteService;
+        private readonly IVentaService _ventaService;
 
-        public ClienteController(IClienteService clienteService)
+        public VentaController(IVentaService ventaService)
         {
-            _clienteService = clienteService;
+            _ventaService = ventaService;
         }
 
 
-        [HttpGet("obtenerClientes")]
+        [HttpGet("obtenerVentas")]
         public async Task<IActionResult> ObtenerClientes()
         {
-            var result = await _clienteService.GetEntidadLista();
+            var result = await _ventaService.GetEntidadLista();
             if (result.Success)
             {
                 return Ok(result);
@@ -33,10 +33,10 @@ namespace app.proyectKevinBarre.api.Controllers
             }
         }
 
-        [HttpPost("insertarCliente")]
-        public async Task<IActionResult> PostCliens([FromBody] ClienteDto request)
+        [HttpPost("insertarVenta")]
+        public async Task<IActionResult> PostCliens([FromBody] VentaDto request)
         {
-            var response = await _clienteService.CrearEntidad(request);
+            var response = await _ventaService.CrearEntidad(request);
 
             return Ok(response);
         }
@@ -46,7 +46,7 @@ namespace app.proyectKevinBarre.api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Obtener(int id)
         {
-            var response = await _clienteService.GetEntidad(id);
+            var response = await _ventaService.GetEntidad(id);
             if (response.Success)
             {
                 return Ok(response);
@@ -60,9 +60,9 @@ namespace app.proyectKevinBarre.api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Actualizar(int id, [FromBody] ClienteDto request)
+        public async Task<IActionResult> Actualizar(int id, [FromBody] VentaDto request)
         {
-            var result = await _clienteService.ActualizarEntidad(id, request); 
+            var result = await _ventaService.ActualizarEntidad(id, request); 
             return Ok(result);
         }
 
@@ -71,7 +71,7 @@ namespace app.proyectKevinBarre.api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
-            var result = await _clienteService.EliminarEntidad(id);
+            var result = await _ventaService.EliminarEntidad(id);
             return Ok(result);
         }
 

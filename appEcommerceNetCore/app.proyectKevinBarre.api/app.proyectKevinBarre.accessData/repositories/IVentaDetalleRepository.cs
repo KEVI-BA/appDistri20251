@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace app.proyectKevinBarre.accessData.repositories
 {
-    public interface IProductoRepository
+    public interface IVentaDetalleRepository
     {
-        Task<Producto> GetEntidad(int id);
+        Task<VentaDetalle> GetEntidad(int id);
 
-        Task<Producto> CreateEntidad(Producto entity);
+        Task<VentaDetalle> CreateEntidad(VentaDetalle entity);
 
-        Task<List<Producto>> ObtenerEntidadesLista();
+        Task<List<VentaDetalle>> ObtenerEntidadesLista();
 
-        Task UpdateEntidad(Producto entity);
+        Task UpdateEntidad(VentaDetalle entity);
 
         Task DeleteEntidad(int id);
     }
 }
+
