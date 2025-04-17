@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using app.projectKevinBarre.services.eventMQ;
 using app.proyectKevinBarre.accessData.repositories;
 using app.proyectKevinBarre.common.Dto;
 using app.proyectKevinBarre.entities.Models;
@@ -11,9 +12,10 @@ using ECommerce_NetCore.Dto.Request;
 
 namespace app.proyectKevinBarre.services.Implementations
 {
-    public class VentaService(IVentaRepository repository ) : IVentaService
+    public class VentaService(IVentaRepository repository, IRabbitMQService rabbitMQService) : IVentaService
     {
         private readonly IVentaRepository _repository = repository;
+        private readonly IRabbitMQService _rabbitMQService = rabbitMQService;
 
 
         public async Task<BaseResponse<VentaDto>> ActualizarEntidad(int id, VentaDto request)
@@ -80,6 +82,7 @@ namespace app.proyectKevinBarre.services.Implementations
                 };
 
                 response.Success = true;
+                await _rabbitMQService.PublishMessage(response.Result, "ventaQueue");
             }
             catch (Exception ex)
             {

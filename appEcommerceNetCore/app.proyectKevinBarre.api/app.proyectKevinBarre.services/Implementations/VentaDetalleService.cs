@@ -1,4 +1,6 @@
-﻿using app.proyectKevinBarre.accessData.repositories;
+﻿
+using app.projectKevinBarre.services.eventMQ;
+using app.proyectKevinBarre.accessData.repositories;
 using app.proyectKevinBarre.common.Dto;
 using app.proyectKevinBarre.entities.Models;
 using app.proyectKevinBarre.services.Interfaces;
@@ -10,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace app.proyectKevinBarre.services.Implementations
 {
-    public class VentaDetalleService(IVentaDetalleRepository repository) : IVentaDetalleService 
+    public class VentaDetalleService(IVentaDetalleRepository repository, IRabbitMQService rabbitMQService) : IVentaDetalleService 
     {
         private readonly IVentaDetalleRepository _repository = repository;
-
+        private readonly IRabbitMQService _rabbitMQService = rabbitMQService;
 
         public async Task<BaseResponse<DetalleVentaDto>> ActualizarEntidad (int id, DetalleVentaDto request)
         {
@@ -82,6 +84,7 @@ namespace app.proyectKevinBarre.services.Implementations
                 };
 
                 response.Success = true;
+                await _rabbitMQService.PublishMessage(response.Result, "ventaDetallesQueue");
             }
             catch (Exception ex)
             {

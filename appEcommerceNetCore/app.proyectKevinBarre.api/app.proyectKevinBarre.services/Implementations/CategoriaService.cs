@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using app.projectKevinBarre.services.eventMQ;
 using app.proyectKevinBarre.accessData.repositories;
 using app.proyectKevinBarre.common.Dto;
 using app.proyectKevinBarre.entities.Models;
@@ -12,11 +13,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace app.proyectKevinBarre.services.Implementations
 {
-    public class CategoriaService(ICategoriaRepository repository) : ICategoriaService
+    public class CategoriaService(ICategoriaRepository repository, IRabbitMQService rabbitMQService) : ICategoriaService
     {
         private readonly ICategoriaRepository _repository = repository;
+        private readonly IRabbitMQService _rabbitMQService = rabbitMQService;
 
-       
 
         public async Task<BaseResponse<CategoriaDto>> ActualizarEntidad(int id, CategoriaDto request)
         {
@@ -70,6 +71,7 @@ namespace app.proyectKevinBarre.services.Implementations
                 };
 
                 response.Success = true;
+                await _rabbitMQService.PublishMessage(response.Result, "categoriasQueue");
             }
             catch (Exception ex)
             {

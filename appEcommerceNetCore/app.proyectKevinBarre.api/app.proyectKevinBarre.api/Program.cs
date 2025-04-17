@@ -1,3 +1,6 @@
+using app.projectKevinBarre.common.EventMQ;
+using app.projectKevinBarre.services.eventMQ;
+using app.projectKevinBarre.services.EventMQ;
 using app.proyectKevinBarre.accessData.Context;
 using app.proyectKevinBarre.accessData.repositories;
 using app.proyectKevinBarre.services.Implementations;
@@ -14,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("rabbitmq"));
 
 // Obtener cadena de conexión 
 
@@ -38,6 +43,8 @@ builder.Services.AddScoped<IVentaRepository, VentaRepository>();
 
 builder.Services.AddScoped<IVentaDetalleService, VentaDetalleService>();
 builder.Services.AddScoped<IVentaDetalleRepository, VentaDetalleRepository>();
+
+builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 
 var app = builder.Build();
 

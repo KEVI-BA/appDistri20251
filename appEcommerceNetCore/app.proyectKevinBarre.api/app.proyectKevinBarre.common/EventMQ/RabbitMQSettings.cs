@@ -1,4 +1,4 @@
-﻿namespace app.projectCholcaByron.common.EventMQ
+﻿namespace app.projectKevinBarre.common.EventMQ
 {
     public class RabbitMQSettings
     {

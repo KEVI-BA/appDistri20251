@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using app.projectCholcaByron.common.EventMQ;
-using app.projectCholcaByron.services.eventMQ;
+using app.projectKevinBarre.common.EventMQ;
+using app.projectKevinBarre.services.eventMQ;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 
-namespace app.projectCholcaByron.services.EventMQ
+namespace app.projectKevinBarre.services.EventMQ
 {
     public class RabbitMQService : IRabbitMQService
     {

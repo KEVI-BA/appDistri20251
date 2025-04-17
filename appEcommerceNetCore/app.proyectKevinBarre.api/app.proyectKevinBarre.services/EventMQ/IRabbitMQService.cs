@@ -1,4 +1,4 @@
-﻿namespace app.projectCholcaByron.services.eventMQ
+﻿namespace app.projectKevinBarre.services.eventMQ
 {
     public interface IRabbitMQService
     {
