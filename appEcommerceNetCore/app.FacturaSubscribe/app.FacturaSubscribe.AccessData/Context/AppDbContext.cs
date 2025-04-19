@@ -14,5 +14,7 @@ namespace app.FacturaSubscribe.DataAccess.Context
 
         public DbSet<Categoria> Categorias { get; set; }
 
+
+
     }
 }
