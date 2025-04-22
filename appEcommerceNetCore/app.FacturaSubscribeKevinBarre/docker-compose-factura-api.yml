@@ -1,5 +1,5 @@
 services:
-  proyecto-ecommerce:
+  proyecto-factura:
     container_name: proyectoFactura-BKA
     image: factura-api:v1
     build:

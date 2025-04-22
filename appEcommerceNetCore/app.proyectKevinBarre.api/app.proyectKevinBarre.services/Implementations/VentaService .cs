@@ -82,7 +82,7 @@ namespace app.proyectKevinBarre.services.Implementations
                 };
 
                 response.Success = true;
-                await _rabbitMQService.PublishMessage(response.Result, "ventaQueue");
+               
             }
             catch (Exception ex)
             {
