@@ -1,3 +1,5 @@
+
+
 docker-compose -f .\docker-compose-services-mq.yml up -d
 
 
@@ -36,3 +38,8 @@ http://localhost:5000/api/proyecto
 
 --borrar contenedor
 docker rm -f proyecto
+
+
+# Desde la carpeta raíz del proyecto (donde está el .sln y el dockerfile)
+docker-compose -f docker-compose.api.yml build
+docker-compose -f docker-compose.api.yml up -d

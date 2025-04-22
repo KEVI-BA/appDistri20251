@@ -59,6 +59,7 @@ namespace app.projectCholcaByron.services.Implementations
                 cliente.FechaNacimiento = request.FechaNacimiento;
                 cliente.Fecha = DateTime.Now;
                 cliente.CedulaIdentidad = request.CedulaIdentidad;
+                cliente.Estado = true;
 
                 cliente = await _repository.InsertarEntidad(cliente);
 
